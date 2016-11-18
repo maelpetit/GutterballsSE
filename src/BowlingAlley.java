@@ -20,7 +20,7 @@ public class BowlingAlley {
 	
 	public void setGroup(Group g){
 		group = g;
-		System.out.println("Group "+ group.getId() +" : Alley " + id);
+		//System.out.println("Group "+ group.getId() +" : Alley " + id);
 	}
 	
 	public int getId(){

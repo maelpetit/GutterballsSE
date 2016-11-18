@@ -12,31 +12,34 @@ public class Bowling {
 
 	public synchronized void enterClient(Client c) {
 		if(!c.getGroup().isPlaying()){
-			while(availableAlley() == -1){
+			while(availableAlley() == -1 && !c.getGroup().isPlaying()){
 				try {
 					wait(); //DANCEFLOOR
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
-			if(c.getGroup().hasPlayed())
-				return;
-			BowlingAlley alley = alleys[availableAlley()];
-			alley.setGroup(c.getGroup());
-			alley.setAvailable(false);
-			c.getGroup().setAlley(alley);
-			
-			System.out.println("Group " + c.getGroup().getId() + " is PLAYING, client.id=" + c.id());
-			try {
-				wait(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+//			if(c.getGroup().hasPlayed())
+//				return;
+			if(!c.getGroup().isPlaying()){
+				BowlingAlley alley = alleys[availableAlley()];
+				alley.setGroup(c.getGroup());
+				alley.setAvailable(false);
+				c.getGroup().setAlley(alley);
+				
+				int gameLength = (int) (Math.random()*2000) + 2000;
+				System.out.println("Group " + c.getGroup().getId() + " is PLAYING on alley "+alley.getId()+" ("+gameLength+"ms)");
+				try {
+					wait(gameLength);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				endGame(c.getGroup());
 			}
-			endGame(c.getGroup());
 		}
 	}
-	
+
 	public synchronized void endGame(Group g){
 		if(g.isPlaying()){
 			int captain = (int) (Math.random()*g.getMax());

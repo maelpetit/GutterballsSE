@@ -34,7 +34,7 @@ public class Group {
 
 	public synchronized void addMember(Client c) {
 		members.add(c);
-		System.out.println("Client "+ c.id() +" -> Group " + id);
+		//System.out.println("Client "+ c.id() +" -> Group " + id);
 		if(isFull()){
 			notifyAll();
 		}

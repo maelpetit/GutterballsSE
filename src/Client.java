@@ -47,7 +47,6 @@ public class Client extends Thread{
 //		}
 		cashdesk.enterClient(this);
 		shoesroom.enterClient(this);
-		//TODO dancefloor
 		bowling.enterClient(this);
 	}
 	 

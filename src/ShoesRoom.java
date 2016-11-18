@@ -22,13 +22,13 @@ public class ShoesRoom {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		//nbShoes--;
 		c.setShoes(true);
-		System.out.println("Client "+ c.id() +" : shoes ON");
+		//System.out.println("Client "+ c.id() +" : shoes ON");
+		
 		//waiting for the whole group to have their shoes
 		while(!c.getGroup().allHaveShoes()){
 			try {
@@ -37,15 +37,20 @@ public class ShoesRoom {
 				e.printStackTrace();
 			}
 		}
-		if(!c.getGroup().dispShoes){
-			System.out.println("Group "+ c.getGroup().getId() +" : shoes ALL ON");
-			c.getGroup().dispShoes = true;
-		}
+		
+		//only used to display when all members of a group have shoes
+		
+//		if(!c.getGroup().dispShoes){
+//			System.out.println("Group "+ c.getGroup().getId() +" : shoes ALL ON");
+//			c.getGroup().dispShoes = true;
+//		}
+		
 		notifyAll();
 	}
 	
-	public synchronized void putShoes(){
+	public synchronized void putShoes(Client c){
 		//nbShoes++;
+		c.setShoes(false);
 		notifyAll();
 	}
 
