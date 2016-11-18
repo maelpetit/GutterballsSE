@@ -41,7 +41,7 @@ public class ShoesRoom {
 		//only used to display when all members of a group have shoes
 		
 //		if(!c.getGroup().dispShoes){
-//			System.out.println("Group "+ c.getGroup().getId() +" : shoes ALL ON");
+//			System.out.println("Group "+ c.getGroup().id() +" : shoes ALL ON");
 //			c.getGroup().dispShoes = true;
 //		}
 		

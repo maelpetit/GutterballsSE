@@ -37,14 +37,6 @@ public class Client extends Thread{
 	}
 	
 	public void run(){
-//		int sleep = (int)(Math.random()*100);
-//		System.out.println("[ " +id+ " ] -> sleep("+sleep+")");
-//		try {
-//			sleep(sleep);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		cashdesk.enterClient(this);
 		shoesroom.enterClient(this);
 		bowling.enterClient(this);

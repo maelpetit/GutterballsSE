@@ -23,18 +23,19 @@ public class Bowling {
 //				return;
 			if(!c.getGroup().isPlaying()){
 				BowlingAlley alley = alleys[availableAlley()];
-				alley.setGroup(c.getGroup());
+				//alley.setGroup(c.getGroup());
 				alley.setAvailable(false);
 				c.getGroup().setAlley(alley);
 				
-				int gameLength = (int) (Math.random()*2000) + 2000;
-				System.out.println("Group " + c.getGroup().getId() + " is PLAYING on alley "+alley.getId()+" ("+gameLength+"ms)");
+				int gameLength = (int) (Math.random()*500) + 500;
+				System.out.println("Group " + c.getGroup().id() + " is PLAYING on alley "+alley.getId()+" ("+gameLength+"ms), Client " + c.id() + " reserved it");
 				try {
 					wait(gameLength);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				endGame(c.getGroup());
 			}
 		}
@@ -52,7 +53,7 @@ public class Bowling {
 		g.getAlley().setAvailable(true);
 		g.setPlaying(false);
 		g.donePlaying();
-		System.out.println("Group "+c.getGroup().getId()+" DONE PLAYING");
+		System.out.println("Group "+c.getGroup().id()+" DONE PLAYING, Client " + c.id() + " ended the game");
 		notifyAll();
 	}
 

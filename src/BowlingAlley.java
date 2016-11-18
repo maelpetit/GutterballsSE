@@ -2,7 +2,7 @@
 public class BowlingAlley {
 
 	private int id;
-	private Group group;
+	//private Group group;
 	private boolean available;
 	
 	public BowlingAlley(int i) {
@@ -18,10 +18,10 @@ public class BowlingAlley {
 		available = a;
 	}
 	
-	public void setGroup(Group g){
-		group = g;
-		//System.out.println("Group "+ group.getId() +" : Alley " + id);
-	}
+//	public void setGroup(Group g){
+//		group = g;
+//		//System.out.println("Group "+ group.id() +" : Alley " + id);
+//	}
 	
 	public int getId(){
 		return id;

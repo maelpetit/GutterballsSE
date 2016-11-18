@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class Group {
+public class Group extends Thread{
 	
 	private final int MAX_MEMBERS_PER_GROUP; 
 	private List<Client> members;
@@ -24,11 +24,15 @@ public class Group {
 		return members.get(i);
 	}
 	
+	public List<Client> getMembers(){
+		return members;
+	}
+	
 	public int getMax(){
 		return MAX_MEMBERS_PER_GROUP;
 	}
 	
-	public int getId(){
+	public int id(){
 		return id;
 	}
 
