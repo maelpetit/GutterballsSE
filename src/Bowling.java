@@ -32,7 +32,7 @@ public class Bowling {
 				try {
 					wait(gameLength);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 				

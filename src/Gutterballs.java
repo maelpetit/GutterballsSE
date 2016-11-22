@@ -1,9 +1,9 @@
 
 public class Gutterballs {
 	
-	final static int NB_CLIENTS = 1000; //Attention le nombre de clients doit etre divisible par le nombre de clients par groupe
+	final static int NB_CLIENTS = 10; //Attention le nombre de clients doit etre divisible par le nombre de clients par groupe
 	final static int MAX_MEMBERS_PER_GROUP = 5;
-	final static int NB_ALLEYS = 2;
+	final static int NB_ALLEYS = 10;
 	
 	public static void main(String[] args) {
 		

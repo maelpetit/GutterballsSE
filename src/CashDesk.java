@@ -18,7 +18,7 @@ public class CashDesk {
 		c.setGroup(group);
 		Group g = group;
 		if(group.isFull()){
-			System.out.println("Group "+ group.id() +" filled");
+			//System.out.println("Group "+ group.id() +" filled");
 			group = new Group(groupCount, MAX_MEMBERS_PER_GROUP);
 			groupCount++;
 		}

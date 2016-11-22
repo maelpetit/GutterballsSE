@@ -5,16 +5,14 @@ import java.util.List;
 public class ShoesRoom {
 	
 	int nbShoes;
-	List<Client> clients;
 	
 	public ShoesRoom(){
-		clients = new ArrayList<Client>();
 		nbShoes = 10;
 	}
 
 	public synchronized void enterClient(Client c) {
-		clients.add(c);
 		takeShoes(c);
+		notifyAll();
 	}
 	
 	public synchronized void takeShoes(Client c){
@@ -44,13 +42,16 @@ public class ShoesRoom {
 //			System.out.println("Group "+ c.getGroup().id() +" : shoes ALL ON");
 //			c.getGroup().dispShoes = true;
 //		}
-		
-		notifyAll();
 	}
 	
 	public synchronized void putShoes(Client c){
 		//nbShoes++;
+		System.out.println("Client "+ c.id() +" SHOES OFF");
 		c.setShoes(false);
+	}
+
+	public synchronized void exitClient(Client client) {
+		putShoes(client);
 		notifyAll();
 	}
 
