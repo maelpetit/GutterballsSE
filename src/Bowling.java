@@ -1,18 +1,24 @@
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 public class Bowling {
 
 	private BowlingAlley[] alleys;
+	private Queue<Group> orderedGroups;
 
-	public Bowling(int nbAlleys){
+	public Bowling(int nbAlleys, int nbGroups){
 		alleys = new BowlingAlley[nbAlleys];
 		for(int i = 0; i < alleys.length; i++){
-			alleys[i] = new BowlingAlley(i);
+			alleys[i] = new BowlingAlley(i, this);
 		}
+		orderedGroups = new ArrayDeque<Group>();
 	}
 
 	public synchronized void enterClient(Client c) {
+		addGroupToWaitList(c);
 		if(!c.getGroup().isPlaying()){
-			while(availableAlley() == -1 && !c.getGroup().isPlaying()){
+			while(availableAlley() == -1){
+				System.out.println("DANCEFLOOR");
 				try {
 					wait(); //DANCEFLOOR
 				} catch (InterruptedException e) {
@@ -21,43 +27,46 @@ public class Bowling {
 			}
 //			if(c.getGroup().hasPlayed())
 //				return;
-			if(!c.getGroup().isPlaying()){
+			if(!c.getGroup().isPlaying() && !c.getGroup().hasPlayed()){
 				BowlingAlley alley = alleys[availableAlley()];
-				//alley.setGroup(c.getGroup());
+				//alley.enterClient(c);
 				alley.setAvailable(false);
+				c.getGroup().setPlaying(true);
 				c.getGroup().setAlley(alley);
-				
+
 				int gameLength = (int) (Math.random()*500) + 500;
 				System.out.println("Group " + c.getGroup().id() + " is PLAYING on alley "+alley.getId()+" ("+gameLength+"ms), Client " + c.id() + " reserved it");
+				
 				try {
-					wait(gameLength);
+					wait(gameLength);//ce wait() se fait reveiller mais on veut pas
 				} catch (InterruptedException e) {
-					
+
 					e.printStackTrace();
 				}
-				
-				endGame(c.getGroup());
+				//c.mySleep(gameLength);
+				alley.endGame(c.getGroup());
+				notifyAll();
+			}
+		}
+		while(c.getGroup().isPlaying()){
+			try {
+				wait(); //GAME IN PROGESS
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
-	public synchronized void endGame(Group g){
-		if(g.isPlaying()){
-			int captain = (int) (Math.random()*g.getMax());
-			endGame(g.getMember(captain));
+
+	private void addGroupToWaitList(Client c) {
+		for(Group g : orderedGroups){
+			if(c.getGroup().id() == g.id())
+				return;
 		}
+		orderedGroups.add(c.getGroup());
 	}
 
-	private synchronized void endGame(Client c) {
-		Group g = c.getGroup();
-		g.getAlley().setAvailable(true);
-		g.setPlaying(false);
-		g.donePlaying();
-		System.out.println("Group "+c.getGroup().id()+" DONE PLAYING, Client " + c.id() + " ended the game");
-		notifyAll();
-	}
-
-	private int availableAlley() { //synchronized ?
+	private synchronized int availableAlley() {
 		for(BowlingAlley a : alleys){
 			if(a.isAvailable())
 				return a.getId();

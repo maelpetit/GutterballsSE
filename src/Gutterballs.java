@@ -1,13 +1,13 @@
 
 public class Gutterballs {
 	
-	final static int NB_CLIENTS = 10; //Attention le nombre de clients doit etre divisible par le nombre de clients par groupe
-	final static int MAX_MEMBERS_PER_GROUP = 5;
-	final static int NB_ALLEYS = 10;
+	final static int NB_CLIENTS = 12; //Attention le nombre de clients doit etre divisible par le nombre de clients par groupe
+	final static int MAX_MEMBERS_PER_GROUP = 4;
+	final static int NB_ALLEYS = 3;
 	
 	public static void main(String[] args) {
 		
-		Bowling bowling = new Bowling(NB_ALLEYS);
+		Bowling bowling = new Bowling(NB_ALLEYS, NB_CLIENTS/MAX_MEMBERS_PER_GROUP);
 		CashDesk cashdesk = new CashDesk(MAX_MEMBERS_PER_GROUP);
 		ShoesRoom shoesroom = new ShoesRoom();
 		

@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class Group extends Thread{
+public class Group {
 	
 	private final int MAX_MEMBERS_PER_GROUP; 
 	private List<Client> members;
@@ -38,7 +38,7 @@ public class Group extends Thread{
 
 	public synchronized void addMember(Client c) {
 		members.add(c);
-		//System.out.println("Client "+ c.id() +" -> Group " + id);
+		System.out.println("Client "+ c.id() +" -> Group " + id);
 		if(isFull()){
 			notifyAll();
 		}
@@ -72,7 +72,6 @@ public class Group extends Thread{
 
 	public void setAlley(BowlingAlley alley) {
 		this.alley = alley;
-		setPlaying(true);
 	}
 
 	public boolean hasPlayed() {

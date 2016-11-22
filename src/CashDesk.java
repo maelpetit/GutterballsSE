@@ -13,12 +13,12 @@ public class CashDesk {
 	}
 	
 	public synchronized void enterClient(Client c){
-		//subscription
 		group.addMember(c);
 		c.setGroup(group);
 		Group g = group;
+		
 		if(group.isFull()){
-			//System.out.println("Group "+ group.id() +" filled");
+			System.out.println("Group "+ group.id() +" filled");
 			group = new Group(groupCount, MAX_MEMBERS_PER_GROUP);
 			groupCount++;
 		}
@@ -31,5 +31,10 @@ public class CashDesk {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public synchronized void exitClient(Client c) {
+		
+		System.out.println("Client " + c.id() + " HAS PAID");
 	}
 }

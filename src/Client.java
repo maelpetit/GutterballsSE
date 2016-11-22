@@ -20,6 +20,15 @@ public class Client extends Thread{
 		return id;
 	}
 	
+	public void mySleep(int time){
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public boolean hasShoes() {
 		return hasShoes;
 	}
@@ -40,7 +49,9 @@ public class Client extends Thread{
 		cashdesk.enterClient(this);
 		shoesroom.enterClient(this);
 		bowling.enterClient(this);
+		cashdesk.exitClient(this);
 		shoesroom.exitClient(this);
+		System.out.println("Client "+ id + " IS GONE");
 	}
 	 
 	
