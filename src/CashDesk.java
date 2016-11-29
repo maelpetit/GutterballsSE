@@ -5,36 +5,42 @@ public class CashDesk {
 	private Group group;
 	private int groupCount;
 	private final int MAX_MEMBERS_PER_GROUP;
+	private int id;
 	
-	public CashDesk(int max){
+	public CashDesk(int i, int max){
+		id = i;
 		MAX_MEMBERS_PER_GROUP = max;
 		group = new Group(0, MAX_MEMBERS_PER_GROUP);
 		groupCount = 1;
 	}
 	
 	public synchronized void enterClient(Client c){
-		group.addMember(c);
-		c.setGroup(group);
-		Group g = group;
 		
-		if(group.isFull()){
-			System.out.println("Group "+ group.id() +" filled");
-			group = new Group(groupCount, MAX_MEMBERS_PER_GROUP);
-			groupCount++;
+//		while(!c.getGroup().isFull()){
+//			System.out.println("PROUT");
+//			try {
+//				wait();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		notifyAll();
+		
+		System.out.println("Client " + c.id() + " REGISTERED");
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		notifyAll();
-		//The client is waiting for his group to fill up
-		while(!g.isFull()){
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		
+		
+		//attendre que toute le groupe soit enregistre apres le cashdesk avec un attribut hasRegistered
 	}
 
 	public synchronized void exitClient(Client c) {
 		
-		System.out.println("Client " + c.id() + " HAS PAID");
+		//System.out.println("Client " + c.id() + " HAS PAID");
 	}
 }

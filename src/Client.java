@@ -3,15 +3,16 @@ public class Client extends Thread{
 	
 	private int id;
 	private Bowling bowling;
-	private CashDesk cashdesk;
+	private DeskManager manager;
 	private ShoesRoom shoesroom;
 	private Group group;
 	private boolean hasShoes;
+	private boolean registered;
 
-	public Client(int i, Bowling b, CashDesk cd, ShoesRoom sr){
+	public Client(int i, Bowling b, DeskManager man, ShoesRoom sr){
 		id = i;
 		bowling = b;
-		cashdesk = cd;
+		manager = man;
 		shoesroom = sr;
 		hasShoes = false;
 	}
@@ -20,6 +21,14 @@ public class Client extends Thread{
 		return id;
 	}
 	
+	public boolean hasRegistered() {
+		return registered;
+	}
+
+	public void setRegistered(boolean registered) {
+		this.registered = registered;
+	}
+
 	public void mySleep(int time){
 		try {
 			Thread.sleep(time);
@@ -46,10 +55,20 @@ public class Client extends Thread{
 	}
 	
 	public void run(){
-		cashdesk.enterClient(this);
+		manager.enterClient(this);
+	
+		
 		shoesroom.enterClient(this);
 		bowling.enterClient(this);
-		cashdesk.exitClient(this);
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
+		bowling.endGame(group);
+		manager.exitClient(this);
 		shoesroom.exitClient(this);
 		System.out.println("Client "+ id + " IS GONE");
 	}
