@@ -38,19 +38,19 @@ public class BowlingAlley {
 		}
 	}
 
-	public synchronized void endGame(Group g) {
+	public synchronized void endGame(Group g, int gameTime) {
 		if(g.isPlaying()){
 			int captain = (int) (Math.random()*g.getMax());
-			endGame(g.getMember(captain));
+			endGame(g.getMember(captain),gameTime);
 		}		
 	}
 
-	private synchronized void endGame(Client c) {
+	private synchronized void endGame(Client c, int gameTime) {
 		Group g = c.getGroup();
 		g.getAlley().setAvailable(true);
 		g.setPlaying(false);
 		g.donePlaying();
-		System.out.println("Group "+c.getGroup().id()+" DONE PLAYING, Client " + c.id() + " ended the game");
+		System.out.println("Group "+c.getGroup().id()+" DONE PLAYING , Game time : "+gameTime +" ms, Client " + c.id() + " ended the game");
 	}
 
 }

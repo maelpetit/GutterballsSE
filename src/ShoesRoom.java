@@ -37,6 +37,7 @@ public class ShoesRoom {
 			}
 		}
 		
+		notifyAll();
 		//only used to display when all members of a group have shoes
 		
 //		if(!c.getGroup().dispShoes){

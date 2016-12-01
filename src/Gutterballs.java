@@ -1,7 +1,7 @@
 
 public class Gutterballs {
 	
-	final static int NB_CLIENTS = 30; //Attention le nombre de clients doit etre divisible par le nombre de clients par groupe
+	final static int NB_CLIENTS = 90; //Attention le nombre de clients doit etre divisible par le nombre de clients par groupe
 	final static int MAX_MEMBERS_PER_GROUP = 5;
 	final static int NB_ALLEYS = 3;
 	private static final int NB_CASH_DESK = 3;

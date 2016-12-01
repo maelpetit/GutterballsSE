@@ -27,14 +27,7 @@ public class CashDesk {
 //		
 //		notifyAll();
 		
-		System.out.println("Client " + c.id() + " REGISTERED");
-		
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
+		//System.out.println("Client " + c.id() + " REGISTERED");
 		
 		//attendre que toute le groupe soit enregistre apres le cashdesk avec un attribut hasRegistered
 	}

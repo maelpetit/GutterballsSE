@@ -17,7 +17,7 @@ public class Bowling {
 	public synchronized void enterClient(Client c) {
 		if(!c.getGroup().isPlaying()){
 			addGroupToWaitList(c);
-			while(availableAlley() == -1){
+			while( !c.getGroup().isPlaying() && (availableAlley() == -1 || (!orderedGroups.isEmpty()?c.getGroup().id() != orderedGroups.peek().id():true))){
 				//System.out.println("Client "+c.id()+" DANCEFLOOR !" );
 				try {
 					wait(); //DANCEFLOOR
@@ -25,7 +25,9 @@ public class Bowling {
 					e.printStackTrace();
 				}
 			}
+			
 			if(!c.getGroup().isPlaying() && !c.getGroup().hasPlayed()){
+				orderedGroups.remove();
 				BowlingAlley alley = alleys[availableAlley()];
 				alley.enterClient(c);
 				notifyAll();
@@ -40,6 +42,7 @@ public class Bowling {
 				return;
 		}
 		orderedGroups.add(c.getGroup());
+		System.out.println("Group " + c.getGroup().id() + " added to WAITLIST");
 	}
 
 	private synchronized int availableAlley() {
@@ -50,8 +53,8 @@ public class Bowling {
 		return -1;
 	}
 
-	public synchronized void endGame(Group group) {
-		group.getAlley().endGame(group);
+	public synchronized void endGame(Group group, int gameTime) {
+		group.getAlley().endGame(group,gameTime);
 		notifyAll();
 	}
 

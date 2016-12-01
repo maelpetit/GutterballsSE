@@ -15,6 +15,12 @@ public class Client extends Thread{
 		manager = man;
 		shoesroom = sr;
 		hasShoes = false;
+//		try {
+//			sleep(100);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	public int id(){
@@ -27,15 +33,6 @@ public class Client extends Thread{
 
 	public void setRegistered(boolean registered) {
 		this.registered = registered;
-	}
-
-	public void mySleep(int time){
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public boolean hasShoes() {
@@ -55,21 +52,46 @@ public class Client extends Thread{
 	}
 	
 	public void run(){
-		manager.enterClient(this);
-	
 		
-		shoesroom.enterClient(this);
-		bowling.enterClient(this);
+		manager.enterClient(this);
 		
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(100);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		shoesroom.enterClient(this);
+		
+		try {
+			Thread.sleep(100);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
 		
-		bowling.endGame(group);
+		bowling.enterClient(this);
+		int gameTime = (int) (Math.random()*1500 + 500);
+		try {
+			Thread.sleep(gameTime);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		bowling.endGame(group, gameTime);
 		manager.exitClient(this);
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
 		shoesroom.exitClient(this);
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
 		System.out.println("Client "+ id + " IS GONE");
 	}
 	 

@@ -21,6 +21,7 @@ public class DeskManager {
 		
 		group.addMember(c);
 		c.setGroup(group);
+		cashdesks[clientCount%NB_CASH_DESK].enterClient(c);
 		
 		while(!c.getGroup().isFull()){
 			try {
@@ -32,7 +33,6 @@ public class DeskManager {
 		
 		notifyAll();
 		
-		cashdesks[clientCount%NB_CASH_DESK].enterClient(c);
 		
 		if(group.isFull()){
 			System.out.println("Group "+ group.id() +" filled");
