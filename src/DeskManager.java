@@ -5,46 +5,69 @@ public class DeskManager {
 	private CashDesk[] cashdesks;
 	private Group group;
 	private int groupCount;
-	private int clientCount;
+	private int clientsCount = 0;
 	
 	
 	public DeskManager(CashDesk[] desks, int nb_cashdesk, int max){
 		NB_CASH_DESK = nb_cashdesk;
 		cashdesks = desks;
 		MAX_MEMBERS_PER_GROUP = max;
-		group = new Group(0, MAX_MEMBERS_PER_GROUP);
-		groupCount = 1;
-		clientCount = 0;
+		groupCount = -1;
 	}
 	
-	public synchronized void enterClient(Client c){
-		
-		group.addMember(c);
-		c.setGroup(group);
-		cashdesks[clientCount%NB_CASH_DESK].enterClient(c);
-		
-		while(!c.getGroup().isFull()){
+	public synchronized CashDesk enterClient(Client c){
+		while(deskAvailable() == -1){
+			System.err.println("Client " + c.id() + " waiting to enter");
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+		CashDesk desk = cashdesks[deskAvailable()];
+//		while(!cashdesks[clientsCount%NB_CASH_DESK].isAvailable()){
+//			System.err.println("Client " + c.id() + " waiting to enter");
+//			
+//			try {
+//				wait(1000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		CashDesk desk = cashdesks[clientsCount%NB_CASH_DESK];
+//		clientsCount++;
+		desk.enterClient(c);
 		notifyAll();
-		
-		
-		if(group.isFull()){
-			System.out.println("Group "+ group.id() +" filled");
-			group = new Group(groupCount, MAX_MEMBERS_PER_GROUP);
-			groupCount++;
-		}
-		
+		return desk;
 	}
 	
-	public synchronized void exitClient(Client c){
-		
-		
-		
+	public synchronized int getNewGroupId(){
+		groupCount++;
+		return groupCount;
 	}
+	
+	private int deskAvailable(){
+		for(CashDesk c : cashdesks){
+			if(c.isAvailable())
+				return c.getId();
+		}
+		return -1;
+	}
+	
+	public synchronized CashDesk exitClient(Client c){
+		while(deskAvailable() == -1){
+			System.err.println("Client " + c.id() + " waiting to exit");
+			try {
+				wait(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		CashDesk desk = cashdesks[deskAvailable()];
+		desk.exitClient(c);
+		notifyAll();
+		return desk;
+	}
+
 }

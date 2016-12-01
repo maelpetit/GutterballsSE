@@ -7,7 +7,6 @@ public class Client extends Thread{
 	private ShoesRoom shoesroom;
 	private Group group;
 	private boolean hasShoes;
-	private boolean registered;
 
 	public Client(int i, Bowling b, DeskManager man, ShoesRoom sr){
 		id = i;
@@ -15,24 +14,10 @@ public class Client extends Thread{
 		manager = man;
 		shoesroom = sr;
 		hasShoes = false;
-//		try {
-//			sleep(100);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 	
 	public int id(){
 		return id;
-	}
-	
-	public boolean hasRegistered() {
-		return registered;
-	}
-
-	public void setRegistered(boolean registered) {
-		this.registered = registered;
 	}
 	
 	public boolean hasShoes() {
@@ -53,46 +38,66 @@ public class Client extends Thread{
 	
 	public void run(){
 		
-		manager.enterClient(this);
+		int deskTime = 300, shoesTime = 200;
+		//System.out.println("Client " + id + " ARRIVED");
+		CashDesk desk = manager.enterClient(this);
 		
 		try {
-			Thread.sleep(100);
+			Thread.sleep(deskTime);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
+		
+		//System.out.println("Client " + id + " ENTERED CASHDESK1");
+		while(!desk.doneRegistering(this)){
+			desk = manager.enterClient(this);
+			try {
+				Thread.sleep(deskTime);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+//		desk.doneRegistering(this);
+		//System.out.println("Client " + id + " EXITED CASHDESK1");
+		
 		shoesroom.enterClient(this);
-		
 		try {
-			Thread.sleep(100);
+			Thread.sleep(shoesTime);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
+		//System.out.println("Client " + id + " SHOES ON");
 		
 		bowling.enterClient(this);
+		//System.out.println("Client " + id + " ENTERED BOWLING");
 		int gameTime = (int) (Math.random()*1500 + 500);
 		try {
 			Thread.sleep(gameTime);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
+		
 		bowling.endGame(group, gameTime);
-		manager.exitClient(this);
-		
+		//System.out.println("Client " + id + " EXITED BOWLING");
+		desk = manager.exitClient(this);
+		//System.out.println("Client " + id + " ENTERED CASHDESK2");
 		try {
-			Thread.sleep(100);
+			Thread.sleep(deskTime);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
 		
+		desk.donePaying(this);
+		//System.out.println("Client " + id + " EXITED CASHDESK2");
 		shoesroom.exitClient(this);
-		
+		//System.out.println("Client " + id + " SHOES OFF");
 		try {
-			Thread.sleep(100);
+			Thread.sleep(shoesTime);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		
-		System.out.println("Client "+ id + " IS GONE");
+		//System.out.println("Client " + id + " DONE");
+		System.out.println("Client "+ id + " IS GONE (group " + group.id() + ")");
 	}
 	 
 	

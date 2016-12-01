@@ -39,9 +39,11 @@ public class Group {
 	public synchronized void addMember(Client c) {
 		members.add(c);
 		System.out.println("Client "+ c.id() +" -> Group " + id);
-		if(isFull()){
-			notifyAll();
-		}
+	}
+	
+	public void removeMember(Client c){
+		members.remove(c);
+		System.out.println("Client "+ c.id() + " REMOVED FROM Group " + id);
 	}
 
 	public boolean isFull() {

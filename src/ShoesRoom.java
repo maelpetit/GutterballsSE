@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class ShoesRoom {
 	
@@ -25,7 +22,7 @@ public class ShoesRoom {
 		}
 		//nbShoes--;
 		c.setShoes(true);
-		//System.out.println("Client "+ c.id() +" : shoes ON");
+		System.out.println("Client "+ c.id() +" : shoes ON");
 		
 		
 		//waiting for the whole group to have their shoes
@@ -48,7 +45,7 @@ public class ShoesRoom {
 	
 	public synchronized void putShoes(Client c){
 		//nbShoes++;
-		//System.out.println("Client "+ c.id() +" SHOES OFF");
+		System.out.println("Client "+ c.id() +" SHOES OFF");
 		c.setShoes(false);
 	}
 

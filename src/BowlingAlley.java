@@ -4,12 +4,10 @@ public class BowlingAlley {
 	private int id;
 	//private Group group;
 	private boolean available;
-	private Bowling bowling;
 
 	public BowlingAlley(int i, Bowling b) {
 		id = i;
 		available = true;
-		bowling = b;
 	}
 
 	public boolean isAvailable(){
@@ -19,11 +17,6 @@ public class BowlingAlley {
 	public void setAvailable(boolean a){
 		available = a;
 	}
-
-	//	public void setGroup(Group g){
-	//		group = g;
-	//		//System.out.println("Group "+ group.id() +" : Alley " + id);
-	//	}
 
 	public int getId(){
 		return id;
