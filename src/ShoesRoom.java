@@ -1,55 +1,53 @@
 
+/**
+ * ShoesRoom monitor class
+ * The shoesroom handles the shoes stock
+ * 
+ * @author Petit, Sabir
+ *
+ */
 public class ShoesRoom {
 	
+	/**
+	 * The current stock of shoes
+	 */
 	int nbShoes;
-	int clientsShoes = 0;
 	
-	public ShoesRoom(){
-		nbShoes = 12;
-	}
-
-	public synchronized void enterClient(Client c) {
-		takeShoes(c);
-		clientsShoes++;
-		notifyAll();
+	/**
+	 * Constructor for the ShoesRoom
+	 * @param nb the number of shoes initially
+	 */
+	public ShoesRoom(int nb){
+		nbShoes = nb;
 	}
 	
+	/**
+	 * Method called by a Client Thread to take his shoes
+	 * @param c the Client Thread
+	 */
 	public synchronized void takeShoes(Client c){
-		while(nbShoes < 1){
-			System.err.println("Client "+c.id()+" waiting for shoes");
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 		nbShoes--;
 		c.setShoes(true);
-		System.out.println("Client "+ c.id() +" : SHOES ON");
-		//c.getGroup().waitShoes(c);
-//		//waiting for the whole group to have their shoes
-//		while(!c.getGroup().allHaveShoes()){
-//			System.err.println("Client " + c.id() + " waiting for the whole group " +c.getGroup().id() + " to have their shoes ");
-//			try {
-//				wait(10000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		notifyAll();
+		//System.out.println("Client "+ c.id() +" : SHOES ON");
+
 	}
 	
+	/**
+	 * Returns true if there are shoes available
+	 * @return nbShoes > 0
+	 */
+	public boolean shoesAvailable(){
+		return nbShoes > 0;
+	}
+	
+	/**
+	 * Method called by a Client Thread to put back his shoes
+	 * @param c
+	 */
 	public synchronized void putShoes(Client c){
 		nbShoes++;
-		System.out.println("Client "+ c.id() +" : SHOES OFF");
+		//System.out.println("Client "+ c.id() +" : SHOES OFF");
 		c.setShoes(false);
-		notifyAll();
-	}
-
-	public synchronized void exitClient(Client client) {
-		putShoes(client);
-		clientsShoes++;
 	}
 
 }
