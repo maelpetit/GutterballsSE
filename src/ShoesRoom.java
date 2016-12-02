@@ -2,6 +2,7 @@
 public class ShoesRoom {
 	
 	int nbShoes;
+	int clientsShoes = 0;
 	
 	public ShoesRoom(){
 		nbShoes = 10;
@@ -9,6 +10,8 @@ public class ShoesRoom {
 
 	public synchronized void enterClient(Client c) {
 		takeShoes(c);
+		clientsShoes++;
+		System.err.println("Client "+c.id()+" Shoes IN " + clientsShoes);
 		notifyAll();
 	}
 	
@@ -29,19 +32,13 @@ public class ShoesRoom {
 		while(!c.getGroup().allHaveShoes()){
 			System.err.println("Client " + c.id() + " waiting for the whole group " +c.getGroup().id() + " to have their shoes ");
 			try {
-				wait(2000);
+				wait(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		
 		notifyAll();
-		//only used to display when all members of a group have shoes
-		
-//		if(!c.getGroup().dispShoes){
-//			System.out.println("Group "+ c.getGroup().id() +" : shoes ALL ON");
-//			c.getGroup().dispShoes = true;
-//		}
 	}
 	
 	public synchronized void putShoes(Client c){
@@ -52,6 +49,8 @@ public class ShoesRoom {
 
 	public synchronized void exitClient(Client client) {
 		putShoes(client);
+		clientsShoes++;
+		System.err.println("Client "+client.id()+" Shoes OUT " + clientsShoes);
 		notifyAll();
 	}
 

@@ -78,7 +78,7 @@ public class Client extends Thread{
 			e1.printStackTrace();
 		}
 		
-		desk.donePaying(this);
+		manager.donePaying(this, desk);
 		//manager.donePaying(this, desk);
 		//System.out.println("Client " + id + " EXITED CASHDESK2");
 		shoesroom.exitClient(this);

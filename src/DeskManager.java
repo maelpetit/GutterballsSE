@@ -8,7 +8,9 @@ public class DeskManager {
 	private CashDesk[] cashdesks;
 	private int groupCount;
 	private List<Group> groups;
-	//private int clientsCount = 0;
+	private int clientsEntered = 0;
+	private int clientsExited = 0;
+	private int clientsDonePlaying = 0;
 	
 	
 	public DeskManager(int nb_cashdesk, int max){
@@ -55,8 +57,9 @@ public class DeskManager {
 //			}
 //		}
 //		CashDesk desk = cashdesks[clientsCount%NB_CASH_DESK];
-//		clientsCount++;
 		desk.enterClient(c);
+		clientsEntered++;
+		System.out.println("Client " + c.id() + " Entered " + clientsEntered);
 		notifyAll();
 		return desk;
 	}
@@ -78,19 +81,23 @@ public class DeskManager {
 		while(deskAvailable() == -1){
 			System.err.println("Client " + c.id() + " waiting to exit");
 			try {
-				wait(2000); //soucis avec le dernier client qui veut partir
+				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		CashDesk desk = cashdesks[deskAvailable()];
 		desk.exitClient(c);
+		clientsDonePlaying++;
+		System.err.println("Client Done Playing "+clientsDonePlaying + " / " + clientsEntered);
 		notifyAll();
 		return desk;
 	}
 
 	public synchronized void donePaying(Client client, CashDesk desk) {
 		desk.donePaying(client);
+		clientsExited++;
+		System.err.println("Client Exited "+clientsExited + " / " + clientsEntered);
 		notifyAll();
 	}
 

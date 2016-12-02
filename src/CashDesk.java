@@ -33,7 +33,7 @@ public class CashDesk {
 		while(!c.getGroup().isFull()){
 			System.err.println("Client " + c.id() + " waiting for the rest of the group " + c.getGroup().id() + " at CashDesk " + id);
 			try {
-				wait(2000);
+				wait(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
