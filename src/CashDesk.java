@@ -16,39 +16,29 @@ public class CashDesk {
 	}
 	
 	public synchronized void enterClient(Client c){
-		if(group == null){
-			group = new Group(manager.getNewGroupId(), MAX_MEMBERS_PER_GROUP);
-		}
 		available = false;
+		group = manager.getNotFullGroup();
 		group.addMember(c);
 		c.setGroup(group);
 				
 		if(group.isFull()){
 			System.out.println("Group "+ group.id() +" filled");
-			group = null;
 		}
+		notifyAll();
 	}
 	
-	public synchronized boolean doneRegistering(Client c) {
+	public synchronized void doneRegistering(Client c) {
 		available = true;
 		System.out.println("Client " + c.id() + " REGISTERED at CashDesk " + id);
-		int nbWait = 0;
 		while(!c.getGroup().isFull()){
 			System.err.println("Client " + c.id() + " waiting for the rest of the group " + c.getGroup().id() + " at CashDesk " + id);
 			try {
-				wait(1000); //probleme si on augmente l'intervalle d'arrivée des clients et la durée de l'inscription, mais il faudrait beaucoup l'augmenter
-				nbWait++;
+				wait(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(nbWait > MAX_MEMBERS_PER_GROUP && id != 0){
-				System.out.println("Client " + c.id() + " REGISTRATION CANCELED at CashDesk " + id);
-				c.getGroup().removeMember(c);
-				return false;
-			}
 		}
 		notifyAll();
-		return true;
 	}
 
 	public synchronized void exitClient(Client c) {

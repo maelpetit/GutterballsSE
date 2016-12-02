@@ -22,13 +22,14 @@ public class ShoesRoom {
 		}
 		//nbShoes--;
 		c.setShoes(true);
-		System.out.println("Client "+ c.id() +" : shoes ON");
+		System.out.println("Client "+ c.id() +" : SHOES ON");
 		
 		
 		//waiting for the whole group to have their shoes
 		while(!c.getGroup().allHaveShoes()){
+			System.err.println("Client " + c.id() + " waiting for the whole group " +c.getGroup().id() + " to have their shoes ");
 			try {
-				wait();
+				wait(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -45,7 +46,7 @@ public class ShoesRoom {
 	
 	public synchronized void putShoes(Client c){
 		//nbShoes++;
-		System.out.println("Client "+ c.id() +" SHOES OFF");
+		System.out.println("Client "+ c.id() +" : SHOES OFF");
 		c.setShoes(false);
 	}
 

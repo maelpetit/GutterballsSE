@@ -18,7 +18,7 @@ public class Bowling {
 		if(!c.getGroup().isPlaying()){
 			addGroupToWaitList(c);
 			while( !c.getGroup().isPlaying() && (availableAlley() == -1 || (!orderedGroups.isEmpty()?c.getGroup().id() != orderedGroups.peek().id():true))){
-				//System.out.println("Client "+c.id()+" DANCEFLOOR !" );
+				System.out.println("Client "+c.id()+" DANCEFLOOR" );
 				try {
 					wait(); //DANCEFLOOR
 				} catch (InterruptedException e) {

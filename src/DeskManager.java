@@ -1,18 +1,37 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeskManager {
 	
-	private final int MAX_MEMBERS_PER_GROUP;
 	private final int NB_CASH_DESK;
+	private final int MAX_MEMBERS_PER_GROUP;
 	private CashDesk[] cashdesks;
-	private Group group;
 	private int groupCount;
-	private int clientsCount = 0;
+	private List<Group> groups;
+	//private int clientsCount = 0;
 	
 	
-	public DeskManager(CashDesk[] desks, int nb_cashdesk, int max){
+	public DeskManager(int nb_cashdesk, int max){
 		NB_CASH_DESK = nb_cashdesk;
-		cashdesks = desks;
 		MAX_MEMBERS_PER_GROUP = max;
+		cashdesks = new CashDesk[NB_CASH_DESK];
+		for(int i = 0; i < NB_CASH_DESK; i++){
+			cashdesks[i] = new CashDesk(i, MAX_MEMBERS_PER_GROUP, this);
+		}
+		groups = new ArrayList<Group>();
 		groupCount = -1;
+	}
+	
+	public Group getNotFullGroup(){
+		for(Group g : groups){
+			if(!g.isFull()){
+				return g;
+			}
+		}
+		groupCount++;
+		Group g = new Group(groupCount,MAX_MEMBERS_PER_GROUP);
+		groups.add(g);
+		return g;
 	}
 	
 	public synchronized CashDesk enterClient(Client c){
@@ -59,7 +78,7 @@ public class DeskManager {
 		while(deskAvailable() == -1){
 			System.err.println("Client " + c.id() + " waiting to exit");
 			try {
-				wait(2000);
+				wait(2000); //soucis avec le dernier client qui veut partir
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -68,6 +87,11 @@ public class DeskManager {
 		desk.exitClient(c);
 		notifyAll();
 		return desk;
+	}
+
+	public synchronized void donePaying(Client client, CashDesk desk) {
+		desk.donePaying(client);
+		notifyAll();
 	}
 
 }

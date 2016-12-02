@@ -49,15 +49,7 @@ public class Client extends Thread{
 		}
 		
 		//System.out.println("Client " + id + " ENTERED CASHDESK1");
-		while(!desk.doneRegistering(this)){
-			desk = manager.enterClient(this);
-			try {
-				Thread.sleep(deskTime);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		}
-//		desk.doneRegistering(this);
+		desk.doneRegistering(this);
 		//System.out.println("Client " + id + " EXITED CASHDESK1");
 		
 		shoesroom.enterClient(this);
@@ -66,7 +58,6 @@ public class Client extends Thread{
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		//System.out.println("Client " + id + " SHOES ON");
 		
 		bowling.enterClient(this);
 		//System.out.println("Client " + id + " ENTERED BOWLING");
@@ -88,6 +79,7 @@ public class Client extends Thread{
 		}
 		
 		desk.donePaying(this);
+		//manager.donePaying(this, desk);
 		//System.out.println("Client " + id + " EXITED CASHDESK2");
 		shoesroom.exitClient(this);
 		//System.out.println("Client " + id + " SHOES OFF");
