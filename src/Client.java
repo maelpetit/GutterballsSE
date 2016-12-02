@@ -59,6 +59,8 @@ public class Client extends Thread{
 			e1.printStackTrace();
 		}
 		
+		group.waitShoes(this);
+		
 		bowling.enterClient(this);
 		//System.out.println("Client " + id + " ENTERED BOWLING");
 		int gameTime = (int) (Math.random()*1500 + 500);

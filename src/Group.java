@@ -11,6 +11,7 @@ public class Group {
 	private BowlingAlley alley;
 	private boolean playing = false;
 	private boolean played = false;
+	private int membersWithShoes = 0;
 	
 	boolean dispShoes = false; //only for display
 	
@@ -54,15 +55,15 @@ public class Group {
 		return playing;
 	}
 	
-	public boolean allHaveShoes(){
-		Iterator<Client> it = members.iterator();
-		while(it.hasNext()){
-			if(!it.next().hasShoes()){
-				return false;
-			}
-		}
-		return true;
-	}
+//	public boolean allHaveShoes(){
+//		Iterator<Client> it = members.iterator();
+//		while(it.hasNext()){
+//			if(!it.next().hasShoes()){
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
 	public void setPlaying(boolean p) {
 		playing = p;
@@ -82,6 +83,21 @@ public class Group {
 	
 	public void donePlaying(){
 		played = true;
+	}
+
+	public synchronized void waitShoes(Client c) {
+		membersWithShoes++;
+		while(membersWithShoes != MAX_MEMBERS_PER_GROUP){
+			System.err.println("Client " + c.id() + " waiting for the whole group " + id + " to have their shoes ");
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		notifyAll();
+				
 	}
 
 }
