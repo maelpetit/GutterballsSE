@@ -1,13 +1,13 @@
 
 public class Gutterballs {
 	
-	private final static int NB_GROUPS = 50;
-	private final static int MAX_MEMBERS_PER_GROUP = 3;
+	private final static int NB_GROUPS = 500;
+	private final static int MAX_MEMBERS_PER_GROUP = 4;
 	/**
 	 * This ensures that the number of clients is a multiple of the number of members per group
 	 */
 	private final static int NB_CLIENTS = NB_GROUPS * MAX_MEMBERS_PER_GROUP;
-	private final static int NB_ALLEYS = 6;
+	private final static int NB_ALLEYS = 30;
 	private static final int NB_CASH_DESK = 3;
 	/**
 	 * The number of shoes is greater or equals the number of clients that can simultaneously play in the bowling

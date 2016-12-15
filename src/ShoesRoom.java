@@ -28,7 +28,7 @@ public class ShoesRoom {
 	public synchronized void takeShoes(Client c){
 		nbShoes--;
 		c.setShoes(true);
-		//System.out.println("Client "+ c.id() +" : SHOES ON");
+		System.out.println("Client "+ c.id() +" : SHOES ON");
 
 	}
 	
@@ -46,7 +46,7 @@ public class ShoesRoom {
 	 */
 	public synchronized void putShoes(Client c){
 		nbShoes++;
-		//System.out.println("Client "+ c.id() +" : SHOES OFF");
+		System.out.println("Client "+ c.id() +" : SHOES OFF");
 		c.setShoes(false);
 	}
 

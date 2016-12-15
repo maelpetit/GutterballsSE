@@ -71,7 +71,7 @@ public class Employee {
 		}
 
 		nbAuth++;
-		//System.out.println("Client " + c.id() + " IS AUTHORIZED to get shoes");
+		System.out.println("Client " + c.id() + " IS AUTHORIZED to get shoes");
 		notifyAll();
 	}
 
@@ -81,6 +81,7 @@ public class Employee {
 	 */
 	public synchronized void askPutShoes(Client client) {
 		shoesroom.putShoes(client);
+		System.out.println("Client " + client.id() + " IS AUTHORIZED to put shoes");
 		notifyAll();
 	}
 

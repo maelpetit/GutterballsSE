@@ -56,7 +56,7 @@ public class CashDesk {
 	 */
 	public synchronized void doneRegistering(Client c) {
 		available = true;
-		//System.out.println("Client " + c.id() + " REGISTERED at CashDesk " + id);
+		System.out.println("Client " + c.id() + " REGISTERED at CashDesk " + id);
 		while(!c.getGroup().isFull()){
 			try {
 				wait();
@@ -82,7 +82,7 @@ public class CashDesk {
 	 */
 	public synchronized void donePaying(Client c){
 		available = true;
-		//System.out.println("Client " + c.id() + " HAS PAID at CashDesk " + id);
+		System.out.println("Client " + c.id() + " HAS PAID at CashDesk " + id);
 		notifyAll();
 	}
 
